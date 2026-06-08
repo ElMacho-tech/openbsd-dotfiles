@@ -119,7 +119,9 @@ create_directories() {
 
 install_spectrwm() {
 	log "Installing spectrwm configuration …"
-	rm -rf "$HOME/.config/spectrwm/*"
+	if [ -d "$HOME/.config/spectrwm" ]; then
+		find "$HOME/.config/spectrwm" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+	fi
 	install -m 644 "$SCRIPT_DIR/.config/spectrwm/spectrwm.conf" "$HOME/.config/spectrwm/spectrwm.conf"
 	install -m 755 "$SCRIPT_DIR/.config/spectrwm/initscreen.ksh" "$SCRIPT_DIR/.config/spectrwm/screenshot.ksh" \
 		"$HOME/.config/spectrwm/"
@@ -134,7 +136,7 @@ install_session_files() {
 	log "Installing session files …"
 	install -m 755 "$SCRIPT_DIR/xenodm/Xsetup_0.sh" "/etc/X11/xenodm/Xsetup_0"
 	install -m 755 "$SCRIPT_DIR/.xsession.ksh" "$HOME/.xsession"
-	install -m 755 "$SCRIPT_DIR/.Xresources" "$HOME/.Xresources"
+	install -m 644 "$SCRIPT_DIR/.Xresources" "$HOME/.Xresources"
 	install -m 644 "$SCRIPT_DIR/.profile.ksh" "$HOME/.profile"
 }
 
@@ -161,7 +163,7 @@ fix_ownership() {
 	if [ "$(id -u)" -eq 0 ]; then
 		log "Fixing ownership for $TARGET_USER …"
 		chown -R "$TARGET_USER:$TARGET_USER" "$HOME/.config"
-		chown "$TARGET_USER:$TARGET_USER" "$HOME/.xsession" "$HOME/.profile"
+		chown "$TARGET_USER:$TARGET_USER" "$HOME/.xsession" "$HOME/.Xresources" "$HOME/.profile"
 	fi
 }
 
