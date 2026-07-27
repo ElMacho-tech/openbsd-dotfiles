@@ -168,8 +168,8 @@ fix_ownership() {
 }
 
 set_shell() {
-	log "Setting shell to ksh93 for $TARGET_USER …"
-	chsh -s /usr/local/bin/ksh93 "$TARGET_USER"
+	log "Setting shell to the base system ksh for $TARGET_USER …"
+	chsh -s /bin/ksh "$TARGET_USER"
 }
 
 main() {

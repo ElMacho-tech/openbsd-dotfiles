@@ -18,7 +18,7 @@ hw-probe
 iamb
 iftop
 irssi
-ksh93
+kakoune
 lynis
 lynx
 lz4
@@ -47,7 +47,6 @@ truncate
 unrar
 unzip--
 vifm
-vim--no_x11
 xclip
 xz
 zathura

@@ -1,6 +1,6 @@
 #!/bin/ksh
 #
-# User profile for OpenBSD
+# Root profile for OpenBSD
 #
 # See the LICENSE file at the top of the project tree for copyright
 # and license details.
@@ -29,10 +29,11 @@ fi
 export PS1='${LOGNAME}@${HOSTNAME%%.*}:${PWD} ${PSCHAR} '
 
 # Locale and tools
-export LANG='en_US.UTF-8'
-export LC_CTYPE='en_US.UTF-8'
+export LANG='es_ES.UTF-8'
+export LC_CTYPE='es_ES.UTF-8'
 export LC_COLLATE='C'
-export EDITOR=vim
+export EDITOR=vi
+export VISUAL=kak
 export FCEDIT=$EDITOR
 export PAGER=less
 export LESS='-iMRS -x2'
@@ -49,9 +50,6 @@ umask 022
 # Only run this block for interactive shells
 case "$-" in
 *i*) # interactive shell
-	alias vi='vim'
-	alias ksh='ksh93'
-
 	if [ -x /usr/bin/tset ]; then
 		eval "$(/usr/bin/tset -IsQ '-munknown:?vt220' "$TERM")"
 	fi

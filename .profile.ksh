@@ -32,11 +32,12 @@ export PS1='${LOGNAME}@${HOSTNAME%%.*}:${PWD} ${PSCHAR} '
 export LANG='es_ES.UTF-8'
 export LC_CTYPE='es_ES.UTF-8'
 export LC_COLLATE='C'
-export EDITOR=vim
+export EDITOR=vi
+export VISUAL=kak
 export FCEDIT=$EDITOR
 export PAGER=less
 export LESS='-iMRS -x2'
-export CLICOLOR=1
+export CLICOLOR=0
 
 # History and editing mode
 HISTFILE=$HOME/.ksh_history
@@ -49,9 +50,6 @@ umask 022
 # Only run this block for interactive shells
 case "$-" in
 *i*) # interactive shell
-	alias vi='vim'
-	alias ksh='ksh93'
-
 	if [ -x /usr/bin/tset ]; then
 		eval "$(/usr/bin/tset -IsQ '-munknown:?vt220' "$TERM")"
 	fi
