@@ -122,7 +122,7 @@ install_spectrwm() {
 	log "Installing spectrwm configuration ..."
 	if [ -d "$HOME/.config/spectrwm" ]; then
 		find "$HOME/.config/spectrwm" -mindepth 1 -maxdepth 1 \
-		-exec rm -rf -- {} +
+			-exec rm -rf -- {} +
 	fi
 	install -m 644 "$SCRIPT_DIR/.config/spectrwm/spectrwm.conf" \
 		"$HOME/.config/spectrwm/spectrwm.conf"
