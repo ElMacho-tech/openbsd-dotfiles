@@ -29,7 +29,8 @@ if [ -z "$internal" ]; then
 fi
 
 # Choose the first other connected output as external
-external=$(printf '%s\n' "$connected_outputs" | grep -vx "$internal" | head -n 1)
+external=$(printf '%s\n' "$connected_outputs" \
+	| grep -vx "$internal" | head -n 1)
 
 if [ -n "$internal" ]; then
 	xrandr --output "$internal" --auto

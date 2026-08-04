@@ -5,7 +5,8 @@
 # See the LICENSE file at the top of the project tree for copyright
 # and license details.
 
-PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:\
+/usr/local/sbin:/usr/local/bin
 export PATH
 
 # Set HOME

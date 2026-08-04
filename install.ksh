@@ -5,7 +5,8 @@
 # This script installs the OpenBSD dotfiles for a specified user.
 # It requires root (superuser) privileges to run.
 # It installs necessary packages,
-# configures doas, and sets up configuration files for spectrwm and dunst.
+# configures doas, and sets up configuration files for spectrwm
+# and dunst.
 #
 # See the LICENSE file at the top of the project tree for copyright
 # and license details.
@@ -38,9 +39,9 @@ else
 	RESET=""
 fi
 
-log() { print "${GREEN}[INFO]${RESET} ✅ $*"; }
-warn() { print "${YELLOW}[WARN]${RESET} ⚠️ $*" >&2; }
-error() { print "${RED}[ERROR]${RESET} ❌ $*" >&2; }
+log() { print "${GREEN}[INFO]${RESET} [OK] $*"; }
+warn() { print "${YELLOW}[WARN]${RESET} [WARN] $*" >&2; }
+error() { print "${RED}[ERROR]${RESET} [ERROR] $*" >&2; }
 
 require_root() {
 	if [ "$(id -u)" -ne 0 ]; then
@@ -92,7 +93,7 @@ ask_target_user() {
 }
 
 configure_doas() {
-	log "Configuring doasers for $TARGET_USER …"
+	log "Configuring doasers for $TARGET_USER ..."
 	DOAS_RULE="permit persist $TARGET_USER as root"
 	if ! grep -qF "$DOAS_RULE" /etc/doas.conf 2>/dev/null; then
 		sh -c "echo '$DOAS_RULE' >> /etc/doas.conf"
@@ -104,37 +105,43 @@ configure_doas() {
 
 install_packages() {
 	load_packages
-	log "Installing packages from $PKG_FILE …"
+	log "Installing packages from $PKG_FILE ..."
 	for pkg in "${PKGS[@]}"; do
 		pkg_add -- "$pkg"
 	done
 }
 
 create_directories() {
-	log "Creating configuration directories …"
+	log "Creating configuration directories ..."
 	mkdir -p \
 		"$HOME/.config/spectrwm" \
 		"$HOME/.config/dunst"
 }
 
 install_spectrwm() {
-	log "Installing spectrwm configuration …"
+	log "Installing spectrwm configuration ..."
 	if [ -d "$HOME/.config/spectrwm" ]; then
-		find "$HOME/.config/spectrwm" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+		find "$HOME/.config/spectrwm" -mindepth 1 -maxdepth 1 \
+		-exec rm -rf -- {} +
 	fi
-	install -m 644 "$SCRIPT_DIR/.config/spectrwm/spectrwm.conf" "$HOME/.config/spectrwm/spectrwm.conf"
-	install -m 755 "$SCRIPT_DIR/.config/spectrwm/initscreen.ksh" "$SCRIPT_DIR/.config/spectrwm/screenshot.ksh" \
+	install -m 644 "$SCRIPT_DIR/.config/spectrwm/spectrwm.conf" \
+		"$HOME/.config/spectrwm/spectrwm.conf"
+	install -m 755 \
+		"$SCRIPT_DIR/.config/spectrwm/initscreen.ksh" \
+		"$SCRIPT_DIR/.config/spectrwm/screenshot.ksh" \
 		"$HOME/.config/spectrwm/"
 }
 
 install_dunst() {
-	log "Installing dunst configuration …"
-	install -m 644 "$SCRIPT_DIR/.config/dunst/dunstrc" "$HOME/.config/dunst/dunstrc"
+	log "Installing dunst configuration ..."
+	install -m 644 "$SCRIPT_DIR/.config/dunst/dunstrc" \
+		"$HOME/.config/dunst/dunstrc"
 }
 
 install_session_files() {
-	log "Installing session files …"
-	install -m 755 "$SCRIPT_DIR/xenodm/Xsetup_0.sh" "/etc/X11/xenodm/Xsetup_0"
+	log "Installing session files ..."
+	install -m 755 "$SCRIPT_DIR/xenodm/Xsetup_0.sh" \
+		"/etc/X11/xenodm/Xsetup_0"
 	install -m 755 "$SCRIPT_DIR/.xsession.ksh" "$HOME/.xsession"
 	install -m 644 "$SCRIPT_DIR/.Xresources" "$HOME/.Xresources"
 	install -m 644 "$SCRIPT_DIR/.profile.ksh" "$HOME/.profile"
@@ -150,7 +157,8 @@ update_profile_home() {
 
 	tmp_profile=$(mktemp "${profile_path}.XXXXXX") || exit 1
 
-	if sed "s|^: \${HOME='[^']*'}|: \${HOME='$HOME'}|" "$profile_path" >"$tmp_profile"; then
+	if sed "s|^: \${HOME='[^']*'}|: \${HOME='$HOME'}|" \
+		"$profile_path" >"$tmp_profile"; then
 		mv "$tmp_profile" "$profile_path"
 	else
 		rm -f "$tmp_profile"
@@ -161,14 +169,16 @@ update_profile_home() {
 
 fix_ownership() {
 	if [ "$(id -u)" -eq 0 ]; then
-		log "Fixing ownership for $TARGET_USER …"
+		log "Fixing ownership for $TARGET_USER ..."
 		chown -R "$TARGET_USER:$TARGET_USER" "$HOME/.config"
-		chown "$TARGET_USER:$TARGET_USER" "$HOME/.xsession" "$HOME/.Xresources" "$HOME/.profile"
+		chown "$TARGET_USER:$TARGET_USER" \
+			"$HOME/.xsession" "$HOME/.Xresources" \
+			"$HOME/.profile"
 	fi
 }
 
 set_shell() {
-	log "Setting shell to the base system ksh for $TARGET_USER …"
+	log "Setting shell to the base system ksh for $TARGET_USER ..."
 	chsh -s /bin/ksh "$TARGET_USER"
 }
 

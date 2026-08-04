@@ -5,7 +5,7 @@
 # Usage:
 #   screenshot.ksh          # Take a full-screen screenshot
 #   screenshot.ksh full     # Take a full-screen screenshot
-#   screenshot.ksh window   # Take a screenshot of a selected window/area
+#   screenshot.ksh window   # Screenshot a selected window/area
 #
 # Requires 'scrot' to be installed
 # Saves screenshots to ~/Pictures/Screenshots/
