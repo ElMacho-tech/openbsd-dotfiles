@@ -22,7 +22,7 @@ export PATH
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 PKG_FILE="$SCRIPT_DIR/packages.txt"
-typeset -a PKGS
+set -A PKGS --
 
 # -------------------------------------------------
 # Colors and logging
@@ -61,7 +61,7 @@ require_root() {
 }
 
 load_packages() {
-	PKGS=()
+	set -A PKGS --
 
 	if [ ! -s "$PKG_FILE" ]; then
 		error "Package list not found or empty: $PKG_FILE"
