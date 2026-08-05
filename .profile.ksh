@@ -8,24 +8,20 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin
 export PATH
 
-# Set HOME
-: "${HOME:=/home/david}"
-export HOME
-
 # Set HOSTNAME
 if [ -z "${HOSTNAME:-}" ]; then
 	HOSTNAME=$(uname -n)
 fi
 export HOSTNAME
 
-# Pick question symbol
+# Pick prompt symbol
 if [ "$(id -u)" -eq 0 ]; then
 	PSCHAR='#'
 else
 	PSCHAR='$'
 fi
 
-# question
+# Prompt
 export PS1='${LOGNAME}@${HOSTNAME%%.*}:${PWD} ${PSCHAR} '
 
 # Locale and tools

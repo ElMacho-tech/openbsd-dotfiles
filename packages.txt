@@ -24,7 +24,7 @@ lynx
 lz4
 mpv
 ncdu
-neomutt--gpgme-notmuch-sasl
+neomutt--gpgme-sasl-notmuch
 noto-emoji
 noto-fonts
 nsh--
@@ -48,6 +48,7 @@ unrar
 unzip--
 vifm
 xclip
+xdg-utils
 xz
 zathura
 zathura-pdf-poppler

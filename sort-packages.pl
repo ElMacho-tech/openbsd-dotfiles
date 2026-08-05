@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use File::Basename qw(dirname);
+use File::Temp     qw(tempfile);
 use Cwd            qw(abs_path);
 
 # Script directory
@@ -36,20 +37,25 @@ while ( my $line = <$in> ) {
         push @entries, $line;
     }
 }
-close $in;
+close $in or die "Cannot close $pkg_file: $!\n";
 
 # Sort entries bytewise (like LC_ALL=C) and remove duplicates
 my %seen;
 my @sorted_entries = sort { $a cmp $b } grep { !$seen{$_}++ } @entries;
 
-# Write back to the original file
-open my $out, '>', $pkg_file
-  or die "Cannot write to $pkg_file: $!\n";
+# Write atomically in the same directory and preserve the original mode.
+my $mode = ( stat $pkg_file )[2] & 07777;
+my ( $out, $temporary ) =
+  tempfile( '.packages-XXXXXX', DIR => dirname($pkg_file), UNLINK => 0 );
+chmod $mode, $temporary
+  or die "Cannot set permissions on $temporary: $!\n";
 
 # Print comments first, then sorted entries
 print $out "$_\n" for @comments;
 print $out "$_\n" for @sorted_entries;
 
-close $out;
+close $out or die "Cannot close $temporary: $!\n";
+rename $temporary, $pkg_file
+  or die "Cannot replace $pkg_file: $!\n";
 
 print "Sorted: $pkg_file\n";

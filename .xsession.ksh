@@ -14,11 +14,11 @@
 # Environment
 # -------------------------------------------------
 
-# Locale (por si el display manager no lo exporta bien)
+# Locale
 export LANG=es_ES.UTF-8
 export LC_ALL=es_ES.UTF-8
 
-# XDG base dirs (algunos programas lo agradecen)
+# XDG base directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -57,14 +57,6 @@ fi
 if command -v dunst >/dev/null 2>&1; then
 	dunst &
 fi
-
-# -------------------------------------------------
-# Prevent screen blanking / DPMS (optional)
-# -------------------------------------------------
-
-xset s off
-xset -dpms
-xset s noblank
 
 # -------------------------------------------------
 # Start window manager
