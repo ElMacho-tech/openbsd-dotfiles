@@ -24,25 +24,9 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 PKG_FILE="$SCRIPT_DIR/packages.txt"
 set -A PKGS --
 
-# -------------------------------------------------
-# Colors and logging
-# -------------------------------------------------
-
-if [ -t 1 ] && [ "${NO_COLOR:-}" != "1" ]; then
-	GREEN="\033[32m"
-	YELLOW="\033[33m"
-	RED="\033[31m"
-	RESET="\033[0m"
-else
-	GREEN=""
-	YELLOW=""
-	RED=""
-	RESET=""
-fi
-
-log() { print "${GREEN}[INFO]${RESET} [OK] $*"; }
-warn() { print "${YELLOW}[WARN]${RESET} [WARN] $*" >&2; }
-error() { print "${RED}[ERROR]${RESET} [ERROR] $*" >&2; }
+log() { print "[INFO] [OK] $*"; }
+warn() { print "[WARN] [WARN] $*" >&2; }
+error() { print "[ERROR] [ERROR] $*" >&2; }
 
 confirm() {
 	print "$1 [y/N]: \c"
